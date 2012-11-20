@@ -119,6 +119,9 @@ class ArraySortTest extends CakeTestCase {
         );
         $test = $expected;
         $ashuffle($test);
+        if ($test === $expected) {
+            $ashuffle($test);
+        }
         $params = 'asc';
         $this->assertNotSame($expected, $test);
         $this->assertSame($expected, ArraySort::multisort($test, $params));
