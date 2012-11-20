@@ -14,7 +14,7 @@ class ArraySortTest extends CakeTestCase {
         parent::setUp();
     }
 
-    public function te1stMultisort() {
+    public function testMultisort() {
         $expected = array(
             'item1' => array(
                 'weight' => 4,
