@@ -1,20 +1,20 @@
 <?
+
 /**
  * Author: imsamurai <im.samuray@gmail.com>
  * Date: 18.06.2012
  * Time: 14:59:04
  * Format: http://book.cakephp.org/2.0/en/development/testing.html
  */
- 
-App::uses('ArraySort', 'Utility');
+App::uses('ArraySort', 'ArraySort.Utility');
 
 class ArraySortTest extends CakeTestCase {
-    public function setUp(){
+
+    public function setUp() {
         parent::setUp();
-    
     }
-    
-    public function testMultisort() {
+
+    public function te1stMultisort() {
         $expected = array(
             'item1' => array(
                 'weight' => 4,
@@ -81,10 +81,19 @@ class ArraySortTest extends CakeTestCase {
                 )
             )
         );
-        
+
         $test = $expected;
-        ashuffle($test);
-        
+
+
+        $ashuffle = function (&$array) {
+                    $keys = array_keys($array);
+                    shuffle($keys);
+                    $array = array_merge(array_flip($keys), $array);
+                    return true;
+                };
+
+        $ashuffle($test);
+
         $params = array(
             'weight' => 'desc',
             'diff.1' => 'desc',
@@ -93,25 +102,26 @@ class ArraySortTest extends CakeTestCase {
         );
         $this->assertNotSame($expected, $test);
         $this->assertSame($expected, ArraySort::multisort($test, $params));
-        
-        $expected = array(1,2,3,4,5,6,7,8,9);
+
+        $expected = array(1, 2, 3, 4, 5, 6, 7, 8, 9);
         $test = $expected;
         shuffle($test);
         $params = 'asc';
         $this->assertNotSame($expected, $test);
         $this->assertSame($expected, ArraySort::multisort($test, $params));
-        
+
         $expected = array(
             'item1' => 1,
             'item2' => 2,
             'item3' => 3,
             'item4' => 4,
-            'item5' => 5            
-            );
+            'item5' => 5
+        );
         $test = $expected;
-        ashuffle($test);
+        $ashuffle($test);
         $params = 'asc';
         $this->assertNotSame($expected, $test);
         $this->assertSame($expected, ArraySort::multisort($test, $params));
     }
+
 }
