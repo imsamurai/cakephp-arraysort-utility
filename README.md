@@ -1,4 +1,5 @@
 # ArraySort Utility for CakePHP 2.1+
+[![Build Status](https://travis-ci.org/imsamurai/cakephp-arraysort-utility.png?branch=master)](https://travis-ci.org/imsamurai/cakephp-arraysort-utility)
 
 ## Installation
 
