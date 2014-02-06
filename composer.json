@@ -1,0 +1,32 @@
+{
+  "name": "imsamurai/arraysort",
+  "description": "CakePHP utility for sorting arrays by multiple fields",
+  "type": "cakephp-plugin",
+  "keywords": [
+    "cakephp",
+    "array",
+	"sort",
+    "plugin"
+  ],
+  "homepage": "http://github.com/imsamurai/cakephp-arraysort-utility",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Shamray Alexander",
+      "email": "im.samuray@gmail.com",
+      "homepage": "https://imsamurai.me",
+      "role": "Maintainer"
+    }
+  ],
+  "require": {
+    "composer/installers": "*"
+  },
+  "support": {
+    "email": "im.samuray@gmail.com",
+    "issues": "https://github.com/imsamurai/cakephp-arraysort-utility/issues",
+    "source": "https://github.com/imsamurai/cakephp-arraysort-utility"
+  },
+  "extra": {
+    "installer-name": "ArraySort"
+  }
+}
