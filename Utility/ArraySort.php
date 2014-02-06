@@ -8,6 +8,9 @@
 class ArraySort {
 
 	/**
+	 * Sort array by multiple fields
+	 * 
+	 * @param array $array Array to sort
 	 * @param $params associative array key is field to sort by, value is desc or asc
 	 * you can yse Set (Hash) notation for fields
 	 */
