@@ -126,4 +126,90 @@ class ArraySortTest extends CakeTestCase {
 		$this->assertSame($expected, ArraySort::multisort($test, $params));
 	}
 
+	/**
+	 * Test multisort for objects
+	 */
+	public function testMultisortObjectByField() {
+		$Object1 = (object)array(
+					'weight' => 1
+		);
+		$Object2 = (object)array(
+					'weight' => 2
+		);
+		$array = array(
+			$Object1,
+			$Object2
+		);
+
+		$result = array(
+			$Object2,
+			$Object1
+		);
+
+		$this->assertSame($result, ArraySort::multisort($array, array('weight' => 'DESC')));
+	}
+
+	/**
+	 * Test multisort for objects
+	 */
+	public function testMultisortObjectByMethod() {
+		$Object1 = new _ArraySortObject(1);
+		$Object2 = new _ArraySortObject(2);
+		$array = array(
+			$Object1,
+			$Object2
+		);
+
+		$result = array(
+			$Object2,
+			$Object1
+		);
+
+		$this->assertSame($result, ArraySort::multisort($array, array('getWeight' => 'DESC')));
+	}
+
+	/**
+	 * Test multisort for objects
+	 */
+	public function testMultisortObjectByCallable() {
+		$Object1 = new _ArraySortObject(1);
+		$Object2 = new _ArraySortObject(2);
+		$array = array(
+			$Object1,
+			$Object2
+		);
+
+		$result = array(
+			$Object2,
+			$Object1
+		);
+
+		$this->assertSame($result, ArraySort::multisort($array, array(
+					array(
+						'field' => function($Object) {
+							return $Object->getWeight();
+						},
+						'direction' => 'desc'
+					)
+		)));
+	}
+
 }
+
+//@codingStandardsIgnoreStart
+if (!class_exists('_ArraySortObject')) {
+
+	class _ArraySortObject {
+
+		function __construct($weight) {
+			$this->weight = $weight;
+		}
+
+		function getWeight() {
+			return $this->weight;
+		}
+
+	}
+	
+}
+//@codingStandardsIgnoreEnd

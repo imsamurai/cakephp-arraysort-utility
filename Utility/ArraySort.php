@@ -17,24 +17,19 @@ class ArraySort {
 	public static function multisort($array, $params) {
 		$isNumeric = is_numeric(implode('', array_keys($array)));
 		if (is_array($params)) {
+			static::_normalizeParams($params);
 			$callback = function($a, $b) use($params) {
 				$result = 0;
-				foreach ($params as $field => $direction) {
-					$valA = Set::get($a, $field);
-					$valB = Set::get($b, $field);
-					if (is_array($valA)) {
-						$valA = count($valA);
-					}
-					if (is_array($valB)) {
-						$valB = count($valB);
-					}
+				foreach ($params as $param) {
+					$valA = static::_getValue($param['field'], $a);
+					$valB = static::_getValue($param['field'], $b);
 					if ($valA > $valB) {
 						$result = 1;
 					} elseif ($valA < $valB) {
 						$result = -1;
 					}
 					if ($result !== 0) {
-						if (strtolower($direction) === 'desc') {
+						if (strtolower($param['direction']) === 'desc') {
 							$result *= -1;
 						}
 						break;
@@ -55,6 +50,63 @@ class ArraySort {
 			}
 		}
 		return $array;
+	}
+
+	/**
+	 * Extract value from subject by path/attribute/method/callable
+	 * 
+	 * @param string|callable $from
+	 * @param mixed $subject
+	 * @return mixed
+	 * @throws InvalidArgumentException
+	 */
+	protected static function _getValue($from, $subject) {
+		$value = null;
+		switch (true) {
+			case is_callable($from):
+				$value = call_user_func($from, $subject);
+				break;
+			case is_array($subject):
+				$value = Set::get($subject, $from);
+				break;
+			case is_object($subject):
+				if (isset($subject->$from)) {
+					$value = $subject->$from;
+				} elseif (method_exists($subject, $from)) {
+					$value = $subject->{$from}();
+				} else {
+					throw InvalidArgumentException('Method or attribute does not exists: ' . $from);
+				}
+				break;
+			case is_numeric($subject) || is_string($subject):
+				$value = $subject;
+				break;
+			default:
+				throw InvalidArgumentException('Wrong type: ' . gettype($subject));
+		}
+
+		if (is_array($value)) {
+			$value = count($value);
+		}
+
+		return $value;
+	}
+
+	/**
+	 * Normalize params
+	 * 
+	 * @param array $params
+	 * @return array
+	 */
+	protected static function _normalizeParams(array &$params) {
+		array_walk($params, function(&$value, $key) {
+			if (!is_array($value)) {
+				$value = array(
+					'field' => $key,
+					'direction' => $value
+				);
+			}
+		});
 	}
 
 }
