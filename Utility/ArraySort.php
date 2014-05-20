@@ -75,14 +75,14 @@ class ArraySort {
 				} elseif (method_exists($subject, $from)) {
 					$value = $subject->{$from}();
 				} else {
-					throw InvalidArgumentException('Method or attribute does not exists: ' . $from);
+					throw new InvalidArgumentException('Method or attribute does not exists: ' . $from);
 				}
 				break;
 			case is_numeric($subject) || is_string($subject):
 				$value = $subject;
 				break;
 			default:
-				throw InvalidArgumentException('Wrong type: ' . gettype($subject));
+				throw new InvalidArgumentException('Wrong type: ' . gettype($subject));
 		}
 
 		if (is_array($value)) {
