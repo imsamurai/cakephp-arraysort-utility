@@ -14,202 +14,166 @@ class ArraySortTest extends CakeTestCase {
 		parent::setUp();
 	}
 
-	public function testMultisort() {
-		$expected = array(
-			'item1' => array(
-				'weight' => 4,
-				'diff' => array(
-					1 => 10,
-					7 => -5,
-					30 => 0
-				)
+	/**
+	 * Test multisort
+	 *
+	 * @param string $testable
+	 * @param mixed  $expected
+	 * @dataProvider testMultisortProvider
+	 */
+	public function testMultisort($testable, $expected, $sort) {
+		if (empty($testable)) {
+			$testable = $expected;
+			if (is_string(key($testable)[0])) {
+				$ashuffle = function (&$array) {
+					$keys = array_keys($array);
+					shuffle($keys);
+					$array = array_merge(array_flip($keys), $array);
+					return true;
+				};
+				$ashuffle($testable);
+			} else {
+				shuffle($testable);
+			}	
+		}
+
+		$this->assertNotSame($expected, $testable);
+		$this->assertSame($expected, ArraySort::multisort($testable, $sort));
+	}
+
+	/**
+	 * data provider for testMultisortProvider
+	 *
+	 * @return array
+	 */
+	public static function testMultisortProvider() {
+		return array(
+			// set #0
+			array(
+				array(
+					array(
+						'trend' => 'France',
+						'count' => (int) 181
+					),
+					array(
+						'trend' => 'Brazil',
+						'count' => (int) 121
+					),
+					array(
+						'trend' => 'India',
+						'count' => (int) 601
+					)
+				),
+				array(
+					array(
+						'trend' => 'India',
+						'count' => (int) 601
+					),
+					array(
+						'trend' => 'France',
+						'count' => (int) 181
+					),
+					array(
+						'trend' => 'Brazil',
+						'count' => (int) 121
+					)
+				),
+				array('count' => 'desc')
 			),
-			'item2' => array(
-				'weight' => 3,
-				'diff' => array(
-					1 => 10,
-					7 => -5,
-					30 => 0
-				)
+			// set #1
+			array(
+				array(),
+				array(
+					'item1' => 1,
+					'item2' => 2,
+					'item3' => 3,
+					'item4' => 4,
+					'item5' => 5
+				),
+				array('sort' => 'asc')
 			),
-			'item3' => array(
-				'weight' => 3,
-				'diff' => array(
-					1 => 8,
-					7 => -5,
-					30 => 0
-				)
+			// set #2
+			array(
+				array(),
+				array(1, 2, 3, 4, 5, 6, 7, 8, 9),
+				array('sort' => 'asc')
 			),
-			'item4' => array(
-				'weight' => 3,
-				'diff' => array(
-					1 => 8,
-					7 => -10,
-					30 => 0
-				)
-			),
-			'item5' => array(
-				'weight' => 3,
-				'diff' => array(
-					1 => 8,
-					7 => -10,
-					30 => -1
-				)
-			),
-			'item6' => array(
-				'weight' => 2,
-				'diff' => array(
-					1 => 3,
-					7 => 4,
-					30 => 5
-				)
-			),
-			'item7' => array(
-				'weight' => 1,
-				'diff' => array(
-					1 => 30,
-					7 => 40,
-					30 => 50
-				)
-			),
-			'item8' => array(
-				'weight' => 1,
-				'diff' => array(
-					1 => false,
-					7 => false,
-					30 => false
+			// set #3
+			array(
+				array(),
+				array(
+					'item1' => array(
+						'weight' => 4,
+						'diff' => array(
+							1 => 10,
+							7 => -5,
+							30 => 0
+						)
+					),
+					'item2' => array(
+						'weight' => 3,
+						'diff' => array(
+							1 => 10,
+							7 => -5,
+							30 => 0
+						)
+					),
+					'item3' => array(
+						'weight' => 3,
+						'diff' => array(
+							1 => 8,
+							7 => -5,
+							30 => 0
+						)
+					),
+					'item4' => array(
+						'weight' => 3,
+						'diff' => array(
+							1 => 8,
+							7 => -10,
+							30 => 0
+						)
+					),
+					'item5' => array(
+						'weight' => 3,
+						'diff' => array(
+							1 => 8,
+							7 => -10,
+							30 => -1
+						)
+					),
+					'item6' => array(
+						'weight' => 2,
+						'diff' => array(
+							1 => 3,
+							7 => 4,
+							30 => 5
+						)
+					),
+					'item7' => array(
+						'weight' => 1,
+						'diff' => array(
+							1 => 30,
+							7 => 40,
+							30 => 50
+						)
+					),
+					'item8' => array(
+						'weight' => 1,
+						'diff' => array(
+							1 => false,
+							7 => false,
+							30 => false
+						)
+					)
+				),
+				array(
+					'weight' => 'desc',
+					'diff.1' => 'desc',
+					'diff.7' => 'desc',
+					'diff.30' => 'desc'
 				)
 			)
 		);
-
-		$test = $expected;
-
-		$ashuffle = function (&$array) {
-			$keys = array_keys($array);
-			shuffle($keys);
-			$array = array_merge(array_flip($keys), $array);
-			return true;
-		};
-
-		$ashuffle($test);
-
-		$params = array(
-			'weight' => 'desc',
-			'diff.1' => 'desc',
-			'diff.7' => 'desc',
-			'diff.30' => 'desc'
-		);
-		$this->assertNotSame($expected, $test);
-		$this->assertSame($expected, ArraySort::multisort($test, $params));
-
-		$expected = array(1, 2, 3, 4, 5, 6, 7, 8, 9);
-		$test = $expected;
-		shuffle($test);
-		$params = 'asc';
-		$this->assertNotSame($expected, $test);
-		$this->assertSame($expected, ArraySort::multisort($test, $params));
-
-		$expected = array(
-			'item1' => 1,
-			'item2' => 2,
-			'item3' => 3,
-			'item4' => 4,
-			'item5' => 5
-		);
-		$test = $expected;
-		$ashuffle($test);
-		if ($test === $expected) {
-			$ashuffle($test);
-		}
-		$params = 'asc';
-		$this->assertNotSame($expected, $test);
-		$this->assertSame($expected, ArraySort::multisort($test, $params));
 	}
-
-	/**
-	 * Test multisort for objects
-	 */
-	public function testMultisortObjectByField() {
-		$Object1 = (object)array(
-					'weight' => 1
-		);
-		$Object2 = (object)array(
-					'weight' => 2
-		);
-		$array = array(
-			$Object1,
-			$Object2
-		);
-
-		$result = array(
-			$Object2,
-			$Object1
-		);
-
-		$this->assertSame($result, ArraySort::multisort($array, array('weight' => 'DESC')));
-	}
-
-	/**
-	 * Test multisort for objects
-	 */
-	public function testMultisortObjectByMethod() {
-		$Object1 = new _ArraySortObject(1);
-		$Object2 = new _ArraySortObject(2);
-		$array = array(
-			$Object1,
-			$Object2
-		);
-
-		$result = array(
-			$Object2,
-			$Object1
-		);
-
-		$this->assertSame($result, ArraySort::multisort($array, array('getWeight' => 'DESC')));
-	}
-
-	/**
-	 * Test multisort for objects
-	 */
-	public function testMultisortObjectByCallable() {
-		$Object1 = new _ArraySortObject(1);
-		$Object2 = new _ArraySortObject(2);
-		$array = array(
-			$Object1,
-			$Object2
-		);
-
-		$result = array(
-			$Object2,
-			$Object1
-		);
-
-		$this->assertSame($result, ArraySort::multisort($array, array(
-					array(
-						'field' => function($Object) {
-							return $Object->getWeight();
-						},
-						'direction' => 'desc'
-					)
-		)));
-	}
-
 }
-
-//@codingStandardsIgnoreStart
-if (!class_exists('_ArraySortObject')) {
-
-	class _ArraySortObject {
-
-		function __construct($weight) {
-			$this->weight = $weight;
-		}
-
-		function getWeight() {
-			return $this->weight;
-		}
-
-	}
-	
-}
-//@codingStandardsIgnoreEnd

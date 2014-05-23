@@ -63,9 +63,6 @@ class ArraySort {
 	protected static function _getValue($from, $subject) {
 		$value = null;
 		switch (true) {
-			case is_callable($from):
-				$value = call_user_func($from, $subject);
-				break;
 			case is_array($subject):
 				$value = Set::get($subject, $from);
 				break;
@@ -80,6 +77,9 @@ class ArraySort {
 				break;
 			case is_numeric($subject) || is_string($subject):
 				$value = $subject;
+				break;
+			case is_callable($from):
+				$value = call_user_func($from, $subject);
 				break;
 			default:
 				throw new InvalidArgumentException('Wrong type: ' . gettype($subject));
