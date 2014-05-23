@@ -53,29 +53,29 @@ class ArraySortTest extends CakeTestCase {
 				array(
 					array(
 						'trend' => 'France',
-						'count' => (int) 181
+						'count' => 181
 					),
 					array(
 						'trend' => 'Brazil',
-						'count' => (int) 121
+						'count' => 121
 					),
 					array(
 						'trend' => 'India',
-						'count' => (int) 601
+						'count' => 601
 					)
 				),
 				array(
 					array(
 						'trend' => 'India',
-						'count' => (int) 601
+						'count' => 601
 					),
 					array(
 						'trend' => 'France',
-						'count' => (int) 181
+						'count' => 181
 					),
 					array(
 						'trend' => 'Brazil',
-						'count' => (int) 121
+						'count' => 121
 					)
 				),
 				array('count' => 'desc')
