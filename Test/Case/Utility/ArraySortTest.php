@@ -34,7 +34,7 @@ class ArraySortTest extends CakeTestCase {
 				$ashuffle($testable);
 			} else {
 				shuffle($testable);
-			}	
+			}
 		}
 
 		$this->assertNotSame($expected, $testable);
@@ -173,7 +173,74 @@ class ArraySortTest extends CakeTestCase {
 					'diff.7' => 'desc',
 					'diff.30' => 'desc'
 				)
-			)
+			),
+			// set #4
+			array(
+				array(
+					'item1' => $Obj1 = new ArraySortTestObject(4, 2),
+					'item2' => $Obj2 = new ArraySortTestObject(6, 3),
+					'item3' => $Obj3 = new ArraySortTestObject(1, 1),
+					'item4' => $Obj4 = new ArraySortTestObject(2, 5)
+				),
+				array(
+					'item4' => $Obj4,
+					'item2' => $Obj2,
+					'item1' => $Obj1,
+					'item3' => $Obj3
+				),
+				array(
+					'count' => 'desc'
+				)
+			),
+			// set #4
+			array(
+				array(
+					'item1' => $Obj1 = new ArraySortTestObject(4, 2),
+					'item2' => $Obj2 = new ArraySortTestObject(6, 3),
+					'item3' => $Obj3 = new ArraySortTestObject(1, 1),
+					'item4' => $Obj4 = new ArraySortTestObject(2, 5)
+				),
+				array(
+					'item4' => $Obj4,
+					'item2' => $Obj2,
+					'item1' => $Obj1,
+					'item3' => $Obj3
+				),
+				array(
+					array(
+						'field' => array('ArraySortTestObject2', 'count'),
+						'direction' => 'asc'
+					)
+				)
+			),
 		);
 	}
+
 }
+
+//@codingStandardsIgnoreStart
+class ArraySortTestObject {
+
+	public function __construct($weight, $count) {
+		$this->_weight = $weight;
+		$this->_count = $count;
+	}
+
+	public function count() {
+		return $this->_count;
+	}
+
+	public function weight() {
+		return $this->_weight;
+	}
+
+}
+
+class ArraySortTestObject2 {
+
+	public static function count(ArraySortTestObject $Object) {
+		return -1 * $Object->count();
+	}
+
+}
+//@codingStandardsIgnoreEnd

@@ -66,7 +66,7 @@ class ArraySort {
 			case is_array($subject):
 				$value = Set::get($subject, $from);
 				break;
-			case is_object($subject):
+			case is_object($subject) && is_string($from):
 				if (isset($subject->$from)) {
 					$value = $subject->$from;
 				} elseif (method_exists($subject, $from)) {
@@ -82,7 +82,7 @@ class ArraySort {
 				$value = call_user_func($from, $subject);
 				break;
 			default:
-				throw new InvalidArgumentException('Wrong type: ' . gettype($subject));
+				throw new InvalidArgumentException('Wrong type combination: subject -> ' . gettype($subject) . ', from -> ' . gettype($from));
 		}
 
 		if (is_array($value)) {
