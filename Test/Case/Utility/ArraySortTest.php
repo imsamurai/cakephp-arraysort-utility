@@ -213,6 +213,51 @@ class ArraySortTest extends CakeTestCase {
 					)
 				)
 			),
+			// set #5
+			array(
+				array(
+					'item1' => $Obj1 = new ArraySortTestObject(4, 2),
+					'item2' => $Obj2 = new ArraySortTestObject(6, 3),
+					'item3' => $Obj3 = new ArraySortTestObject(1, 1),
+					'item4' => $Obj4 = new ArraySortTestObject(2, 5)
+				),
+				array(
+					'item4' => $Obj4,
+					'item2' => $Obj2,
+					'item1' => $Obj1,
+					'item3' => $Obj3
+				),
+				array(
+					array(
+						'field' => array('ArraySortTestObject2', 'count'),
+						'order' => 'asc'
+					)
+				)
+			),
+			// set #5
+			array(
+				array(
+					'item1' => array(
+						'field' => 2
+					),
+					'item2' => array(
+						'field' => 20
+					),
+				),
+				array(
+					'item2' => array(
+						'field' => 20
+					),
+					'item1' => array(
+						'field' => 2
+					)
+				),
+				array(
+					'field' => array(
+						'order' => 'desc'
+					)
+				)
+			),
 		);
 	}
 

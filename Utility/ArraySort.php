@@ -105,6 +105,13 @@ class ArraySort {
 					'field' => $key,
 					'direction' => $value
 				);
+			} elseif (is_array($value) && !isset($value['field'])) {
+				$value['field'] = $key;
+			}
+
+			if (!empty($value['order'])) {
+				$value['direction'] = $value['order'];
+				unset($value['order']);
 			}
 		});
 	}
