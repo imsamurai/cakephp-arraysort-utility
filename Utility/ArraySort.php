@@ -8,6 +8,13 @@
 class ArraySort {
 
 	/**
+	 * Cache for sort fields
+	 *
+	 * @var array 
+	 */
+	protected static $_cache = array();
+
+	/**
 	 * Sort array by multiple fields
 	 * 
 	 * @param array $array Array to sort
@@ -15,6 +22,7 @@ class ArraySort {
 	 * you can yse Set (Hash) notation for fields
 	 */
 	public static function multisort($array, $params) {
+		static::$_cache = array();
 		$isNumeric = is_numeric(implode('', array_keys($array)));
 		if (is_array($params)) {
 			static::_normalizeParams($params);
@@ -61,6 +69,11 @@ class ArraySort {
 	 * @throws InvalidArgumentException
 	 */
 	protected static function _getValue($from, $subject) {
+		$cached = static::_getCache($from, $subject);
+		if (isset($cached)) {
+			return $cached;
+		}
+
 		$value = null;
 		switch (true) {
 			case is_array($subject):
@@ -88,8 +101,33 @@ class ArraySort {
 		if (is_array($value)) {
 			$value = count($value);
 		}
-
+		static::_setCache($from, $subject, $value);
 		return $value;
+	}
+
+	/**
+	 * Get link to cached value $from $subject
+	 * 
+	 * @param mixed $from
+	 * @param mixed $subject
+	 * @return mixed
+	 */
+	protected static function &_getCache($from, $subject) {
+		$subjectId = is_object($subject) ? spl_object_hash($subject) : serialize($subject);
+		$fromId = is_object($from) ? spl_object_hash($from) : serialize($from);
+		return static::$_cache[$subjectId][$fromId];
+	}
+
+	/**
+	 * Add $value $from $subject into cache
+	 * 
+	 * @param mixed $from
+	 * @param mixed $subject
+	 * @param mixed $value
+	 */
+	protected static function _setCache($from, $subject, $value) {
+		$cache = &static::_getCache($from, $subject);
+		$cache = $value;
 	}
 
 	/**

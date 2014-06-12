@@ -261,6 +261,67 @@ class ArraySortTest extends CakeTestCase {
 		);
 	}
 
+	/**
+	 * Test caching search fields
+	 * 
+	 * @param array $data
+	 * @param array $params
+	 * 
+	 * @dataProvider cacheProvider
+	 */
+	public function testCache(array $data, array $params) {
+		$Data = array_map(function($elem) {
+			$Elem = new ArraySortTestCachedObject($elem['weight'], $elem['count']);
+			return $Elem;
+		}, $data);
+		ArraySort::multisort($Data, $params);
+	}
+
+	/**
+	 * Data provider for 
+	 * 
+	 * @return array
+	 */
+	public function cacheProvider() {
+		return array(
+			//set #0
+			array(
+				//data
+				array(
+					array(
+						'weight' => 0,
+						'count' => 1
+					),
+					array(
+						'weight' => 10,
+						'count' => 0
+					),
+					array(
+						'weight' => 10,
+						'count' => 0
+					),
+					array(
+						'weight' => 4,
+						'count' => 8
+					),
+					array(
+						'weight' => 9,
+						'count' => 6
+					),
+					array(
+						'weight' => 44,
+						'count' => 8
+					),
+				),
+				//sort
+				array(
+					'weight' => 'desc',
+					'count' => 'asc'
+				)
+			)
+		);
+	}
+
 }
 
 //@codingStandardsIgnoreStart
@@ -281,6 +342,31 @@ class ArraySortTestObject {
 
 }
 
+class ArraySortTestCachedObject extends ArraySortTestObject {
+
+	protected $_run = array(
+		'count' => false,
+		'weight' => false
+	);
+
+	public function count() {
+		if ($this->_run['count']) {
+			throw new Exception('Method count must be callad only once');
+		}
+		$this->_run['count'] = true;
+		return parent::count();
+	}
+
+	public function weight() {
+		if ($this->_run['weight']) {
+			throw new Exception('Method weight must be callad only once');
+		}
+		$this->_run['weight'] = true;
+		return parent::weight();
+	}
+
+}
+
 class ArraySortTestObject2 {
 
 	public static function count(ArraySortTestObject $Object) {
@@ -288,4 +374,5 @@ class ArraySortTestObject2 {
 	}
 
 }
+
 //@codingStandardsIgnoreEnd
