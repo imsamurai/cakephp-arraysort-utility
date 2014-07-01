@@ -113,8 +113,8 @@ class ArraySort {
 	 * @return mixed
 	 */
 	protected static function &_getCache($from, $subject) {
-		$subjectId = is_object($subject) ? spl_object_hash($subject) : serialize($subject);
-		$fromId = is_object($from) ? spl_object_hash($from) : serialize($from);
+		$subjectId = is_object($subject) ? spl_object_hash($subject) : json_encode($subject);
+		$fromId = is_object($from) ? spl_object_hash($from) : json_encode($from);
 		return static::$_cache[$subjectId][$fromId];
 	}
 
