@@ -8,11 +8,13 @@
  */
 App::uses('ArraySort', 'ArraySort.Utility');
 
+/**
+ * ArraySortTest
+ * 
+ * @package ArraySortTest
+ * @subpackage Utility
+ */
 class ArraySortTest extends CakeTestCase {
-
-	public function setUp() {
-		parent::setUp();
-	}
 
 	/**
 	 * Test multisort
@@ -325,30 +327,69 @@ class ArraySortTest extends CakeTestCase {
 }
 
 //@codingStandardsIgnoreStart
+/**
+ * ArraySortTestObject
+ * 
+ * @package ArraySortTest
+ * @subpackage Utility
+ */
 class ArraySortTestObject {
 
+	/**
+	 * Constructor
+	 * 
+	 * @param int $weight
+	 * @param int $count
+	 */
 	public function __construct($weight, $count) {
 		$this->_weight = $weight;
 		$this->_count = $count;
 	}
 
+	/**
+	 * Count
+	 * 
+	 * @return int
+	 */
 	public function count() {
 		return $this->_count;
 	}
 
+	/**
+	 * Weight
+	 * 
+	 * @return int
+	 */
 	public function weight() {
 		return $this->_weight;
 	}
 
 }
 
+/**
+ * ArraySortTestCachedObject
+ * 
+ * @package ArraySortTest
+ * @subpackage Utility
+ */
 class ArraySortTestCachedObject extends ArraySortTestObject {
 
+	/**
+	 * Run counts
+	 *
+	 * @var array
+	 */
 	protected $_run = array(
 		'count' => false,
 		'weight' => false
 	);
 
+	/**
+	 * {@inheritdoc}
+	 * 
+	 * @return int
+	 * @throws Exception
+	 */
 	public function count() {
 		if ($this->_run['count']) {
 			throw new Exception('Method count must be callad only once');
@@ -357,6 +398,12 @@ class ArraySortTestCachedObject extends ArraySortTestObject {
 		return parent::count();
 	}
 
+	/**
+	 * {@inheritdoc}
+	 * 
+	 * @return int
+	 * @throws Exception
+	 */
 	public function weight() {
 		if ($this->_run['weight']) {
 			throw new Exception('Method weight must be callad only once');
@@ -367,8 +414,20 @@ class ArraySortTestCachedObject extends ArraySortTestObject {
 
 }
 
+/**
+ * ArraySortTestObject2
+ * 
+ * @package ArraySortTest
+ * @subpackage Utility
+ */
 class ArraySortTestObject2 {
 
+	/**
+	 * Count
+	 * 
+	 * @param ArraySortTestObject $Object
+	 * @return int
+	 */
 	public static function count(ArraySortTestObject $Object) {
 		return -1 * $Object->count();
 	}

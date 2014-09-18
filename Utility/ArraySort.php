@@ -5,6 +5,13 @@
  *
  * @author imsamurai
  */
+
+/**
+ * Array sort
+ * 
+ * @package ArraySort
+ * @subpackage Utility
+ */
 class ArraySort {
 
 	/**

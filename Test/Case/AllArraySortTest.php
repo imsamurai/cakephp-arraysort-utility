@@ -1,5 +1,17 @@
 <?php
 
+/**
+ * Description of Array
+ *
+ * @author imsamurai
+ */
+
+/**
+ * AllArraySortTest
+ * 
+ * @package ArraySortTest
+ * @subpackage Test
+ */
 class AllArraySortTest extends PHPUnit_Framework_TestSuite {
 
 	/**
