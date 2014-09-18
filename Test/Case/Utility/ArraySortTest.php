@@ -29,13 +29,13 @@ class ArraySortTest extends CakeTestCase {
 			if (is_string(key($testable)[0])) {
 				$ashuffle = function (&$array) {
 					$keys = array_keys($array);
-					shuffle($keys);
+					$this->_shuffle($keys);
 					$array = array_merge(array_flip($keys), $array);
 					return true;
 				};
 				$ashuffle($testable);
 			} else {
-				shuffle($testable);
+				$this->_shuffle($testable);
 			}
 		}
 
@@ -322,6 +322,21 @@ class ArraySortTest extends CakeTestCase {
 				)
 			)
 		);
+	}
+	
+	/**
+	 * Shuffle array, output array always not the same as input
+	 * 
+	 * @param array $array
+	 * @return array
+	 */
+	protected function _shuffle(array &$array) {
+		$old = $array;
+		while ($array == $old) {
+			shuffle($array);
+			debug($array);
+			debug($old);
+		}
 	}
 
 }
