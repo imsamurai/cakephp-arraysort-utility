@@ -20,10 +20,15 @@ class ArraySortTest extends CakeTestCase {
 	 * Test multisort
 	 *
 	 * @param string $testable
-	 * @param mixed  $expected
+	 * @param mixed $expected
+	 * @param mixed $sort
+	 * @param string $exception
 	 * @dataProvider testMultisortProvider
 	 */
-	public function testMultisort($testable, $expected, $sort) {
+	public function testMultisort($testable, $expected, $sort, $exception = null) {
+		if ($exception) {
+			$this->expectException($exception);
+		}
 		if (empty($testable)) {
 			$testable = $expected;
 			if (is_string(key($testable)[0])) {
@@ -218,27 +223,6 @@ class ArraySortTest extends CakeTestCase {
 			// set #5
 			array(
 				array(
-					'item1' => $Obj1 = new ArraySortTestObject(4, 2),
-					'item2' => $Obj2 = new ArraySortTestObject(6, 3),
-					'item3' => $Obj3 = new ArraySortTestObject(1, 1),
-					'item4' => $Obj4 = new ArraySortTestObject(2, 5)
-				),
-				array(
-					'item4' => $Obj4,
-					'item2' => $Obj2,
-					'item1' => $Obj1,
-					'item3' => $Obj3
-				),
-				array(
-					array(
-						'field' => array('ArraySortTestObject2', 'count'),
-						'order' => 'asc'
-					)
-				)
-			),
-			// set #5
-			array(
-				array(
 					'item1' => array(
 						'field' => 2
 					),
@@ -259,6 +243,94 @@ class ArraySortTest extends CakeTestCase {
 						'order' => 'desc'
 					)
 				)
+			),
+			// set #6
+			array(
+				array(
+					'item1' => 1,
+					'item2' => 2,
+					'item3' => 3,
+					'item4' => 4,
+					'item5' => 5
+				),
+				array(
+					'item5' => 5,
+					'item4' => 4,
+					'item3' => 3,
+					'item2' => 2,
+					'item1' => 1
+				),
+				'desc'
+			),
+			// set #7
+			array(
+				array(1, 4, 6, 8, 2, 45),
+				array(1, 2, 4, 6, 8, 45),
+				'asc'
+			),
+			// set #8
+			array(
+				array(
+					'item1' => $Obj1 = new ArraySortTestObject(4, 2),
+					'item2' => $Obj2 = new ArraySortTestObject(6, 3),
+					'item3' => $Obj3 = new ArraySortTestObject(1, 1),
+					'item4' => $Obj4 = new ArraySortTestObject(2, 5)
+				),
+				array(
+					'item3' => $Obj3,
+					'item4' => $Obj4,
+					'item1' => $Obj1,
+					'item2' => $Obj2
+				),
+				array(
+					'weightArray' => 'asc'
+				)
+			),
+			// set #9
+			array(
+				array(
+					'item1' => $Obj1 = new ArraySortTestObject(4, 2),
+					'item2' => $Obj2 = new ArraySortTestObject(6, 3),
+					'item3' => $Obj3 = new ArraySortTestObject(1, 1),
+					'item4' => $Obj4 = new ArraySortTestObject(2, 5)
+				),
+				array(
+					'item3' => $Obj3,
+					'item4' => $Obj4,
+					'item1' => $Obj1,
+					'item2' => $Obj2
+				),
+				array(
+					'_weight' => 'asc'
+				)
+			),
+			// set #10
+			array(
+				array(
+					'item1' => $Obj1 = new ArraySortTestObject(4, 2),
+					'item2' => $Obj2 = new ArraySortTestObject(6, 3),
+					'item3' => $Obj3 = new ArraySortTestObject(1, 1),
+					'item4' => $Obj4 = new ArraySortTestObject(2, 5)
+				),
+				array(),
+				array(
+					'_unknown_' => 'asc'
+				),
+				'InvalidArgumentException'
+			),
+			// set #9
+			array(
+				array(
+					'item1' => $Obj1 = new ArraySortTestObject(4, 2),
+					'item2' => $Obj2 = new ArraySortTestObject(6, 3),
+					'item3' => $Obj3 = new ArraySortTestObject(1, 1),
+					'item4' => $Obj4 = new ArraySortTestObject(2, 5)
+				),
+				array(),
+				array(
+					123 => 'asc'
+				),
+				'InvalidArgumentException'
 			),
 		);
 	}
@@ -323,7 +395,7 @@ class ArraySortTest extends CakeTestCase {
 			)
 		);
 	}
-	
+
 	/**
 	 * Shuffle array, output array always not the same as input
 	 * 
@@ -377,6 +449,15 @@ class ArraySortTestObject {
 	 */
 	public function weight() {
 		return $this->_weight;
+	}
+
+	/**
+	 * Weight array
+	 * 
+	 * @return int
+	 */
+	public function weightArray() {
+		return array_fill(0, $this->_weight, true);
 	}
 
 }
