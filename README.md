@@ -1,6 +1,10 @@
-# ArraySort Utility for CakePHP 2.1+
-[![Build Status](https://travis-ci.org/imsamurai/cakephp-arraysort-utility.png)](https://travis-ci.org/imsamurai/cakephp-arraysort-utility) [![Coverage Status](https://coveralls.io/repos/imsamurai/cakephp-arraysort-utility/badge.png?branch=master)](https://coveralls.io/r/imsamurai/cakephp-arraysort-utility?branch=master) [![Latest Stable Version](https://poser.pugx.org/imsamurai/arraysort/v/stable.png)](https://packagist.org/packages/imsamurai/arraysort) [![Total Downloads](https://poser.pugx.org/imsamurai/arraysort/downloads.png)](https://packagist.org/packages/imsamurai/arraysort) [![Latest Unstable Version](https://poser.pugx.org/imsamurai/arraysort/v/unstable.png)](https://packagist.org/packages/imsamurai/arraysort) [![License](https://poser.pugx.org/imsamurai/arraysort/license.png)](https://packagist.org/packages/imsamurai/arraysort)
+## API Documentation
 
+Check out [ArraySort API Documentation](http://imsamurai.github.io/cakephp-arraysort-utility/docs/master/)
+
+## Abstract
+
+[![Build Status](https://travis-ci.org/imsamurai/cakephp-arraysort-utility.png)](https://travis-ci.org/imsamurai/cakephp-arraysort-utility) [![Coverage Status](https://coveralls.io/repos/imsamurai/cakephp-arraysort-utility/badge.png?branch=master)](https://coveralls.io/r/imsamurai/cakephp-arraysort-utility?branch=master) [![Latest Stable Version](https://poser.pugx.org/imsamurai/arraysort/v/stable.png)](https://packagist.org/packages/imsamurai/arraysort) [![Total Downloads](https://poser.pugx.org/imsamurai/arraysort/downloads.png)](https://packagist.org/packages/imsamurai/arraysort) [![Latest Unstable Version](https://poser.pugx.org/imsamurai/arraysort/v/unstable.png)](https://packagist.org/packages/imsamurai/arraysort) [![License](https://poser.pugx.org/imsamurai/arraysort/license.png)](https://packagist.org/packages/imsamurai/arraysort)
 
 ## Installation
 ```
